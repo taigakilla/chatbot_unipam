@@ -1,7 +1,6 @@
 'use client'
 import Image from 'next/image'
 import {
-  MainContainer,
   ChatHeader,
   ChatMessagesWrapper,
   BotMessage,
@@ -15,23 +14,38 @@ import {
   StyledUserInput,
   StyledInputButton,
   ChatBubble,
+  MainChatContainer,
+  Container,
 } from './styles'
 import { useState } from 'react'
+
+const Messages = [
+  {
+    sender: 'Bot',
+    content: 'Essa é uma mensagem do bot.',
+  },
+
+  {
+    sender: 'User',
+    content: 'Essa é uma mensagem do usuário. Hello!',
+  },
+]
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleChatOpen = (ifOpen: boolean) => {
-    setIsOpen(ifOpen)
+  const handleChatOpen = () => {
+    setIsOpen(true)
+  }
+
+  const handleChatClose = () => {
+    setIsOpen(false)
   }
 
   return (
     <>
-      <ChatBubble onClick={handleChatOpen}>
-        {isOpen ? 'Chat Aberto' : 'Chat Fechado'}
-      </ChatBubble>
-      {isOpen ? (
-        <MainContainer>
+      <Container>
+        <MainChatContainer isOpen={isOpen}>
           <ChatHeader>
             <LogosWrapper>
               <Image
@@ -47,7 +61,7 @@ export default function Chat() {
                 height={28}
               ></Image>
             </LogosWrapper>
-            <CloseButton>
+            <CloseButton onClick={handleChatClose}>
               <Image
                 src={'/images/closebtn.svg'}
                 alt={'x'}
@@ -57,16 +71,23 @@ export default function Chat() {
             </CloseButton>
           </ChatHeader>
           <ChatMessagesWrapper>
-            <BotMessageWrap>
-              <Image src={'/images/icon.svg'} alt={''} width={30} height={30}></Image>
-              <BotMessage>this is a message a dsasd asd asd </BotMessage>
-            </BotMessageWrap>
-            <UserMessageWrap>
-              <UserMessage>this is a user message very ver very very very bi</UserMessage>
-            </UserMessageWrap>
-            <UserMessageWrap>
-              <UserMessage>this is a user message</UserMessage>
-            </UserMessageWrap>
+            {Messages.map((message, index) => {
+              if (message.sender === 'Bot') {
+                return (
+                  <BotMessageWrap key={index}>
+                    <Image src={'/images/icon.svg'} alt={''} width={30} height={30} />
+                    <BotMessage>{message.content}</BotMessage>
+                  </BotMessageWrap>
+                )
+              } else if (message.sender == 'User') {
+                return (
+                  <UserMessageWrap key={index}>
+                    <UserMessage>{message.content}</UserMessage>
+                  </UserMessageWrap>
+                )
+              }
+              return null
+            })}
           </ChatMessagesWrapper>
           <UserInputWrapper>
             <StyledForm action='' id='userInputForm'>
@@ -80,10 +101,17 @@ export default function Chat() {
               </StyledInputButton>
             </StyledForm>
           </UserInputWrapper>
-        </MainContainer>
-      ) : (
-        <p>OI</p>
-      )}
+        </MainChatContainer>
+        {!isOpen ? (
+          <ChatBubble onClick={handleChatOpen}>
+            <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
+          </ChatBubble>
+        ) : (
+          <ChatBubble onClick={handleChatClose}>
+            <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
+          </ChatBubble>
+        )}
+      </Container>
     </>
   )
 }

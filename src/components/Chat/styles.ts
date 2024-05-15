@@ -1,22 +1,57 @@
 import styled from "styled-components";
-import Image from "next/image";
-import { Nunito } from 'next/font/google'
+import { media } from "@unipam/theme";
+
+export const Container = styled.div`
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end; 
+
+    ${media.sm`
+        padding: 1rem;
+        gap: .5rem;
+    `}
+`
 
 export const ChatBubble = styled.button`
     background-color: ${({theme})=>theme.colors.secondary_100};
     border: none;
     border-radius: 50% 0 50% 50%;
-    padding: 50px;
+    width: 4rem;
+    height: 4rem;
     box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
     cursor: pointer;
     outline: none;
+    margin: .5rem;
+    position: relative;
+    z-index: 1;
 `
 
-export const MainContainer = styled.div`
-    margin: 0;
-    padding: 0;
-    height: 80vh;
+type MainChatContainerProps = {
+    isOpen: boolean;
+}
+
+export const MainChatContainer = styled.div<MainChatContainerProps>`
+    border-radius: .5rem;
+    height: 100%;
+    width: 100%;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
+    position: absolute;
+    opacity: ${({isOpen }) => (isOpen ? '1' : '0')};
+    transition: all 0.25s ease;
+    z-index: ${({isOpen}) => (isOpen ? '10' : '-10')};
+    box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+
+    ${media.sm`
+        height: 30rem;
+        width: 25rem;
+        border-radius: .5rem;
+        position: relative;
+        margin: .5rem;
+    `}
+
 `
 
 export const ChatHeader = styled.div`
@@ -27,7 +62,7 @@ export const ChatHeader = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
+    border-radius: .5rem .5rem 0 0;
 `
 
 export const CloseButton = styled.button`
@@ -39,6 +74,7 @@ export const CloseButton = styled.button`
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
     font-size: 1.2rem;
     font-weight: bold;
+    cursor: pointer;
 `
 
 export const LogosWrapper = styled.div`
@@ -50,12 +86,22 @@ export const LogosWrapper = styled.div`
 
 export const ChatMessagesWrapper = styled.div`
     width: 100%;
-    height: 95%;
+    height: 75%;
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
+    overflow-y: hidden;
+
+    ${media.sm`
+        height: 20rem;
+    `}
+
+    ${media.xl`
+        height: 19rem;
+    `}
+
 `
 
 export const BotMessageWrap = styled.div`
@@ -67,7 +113,7 @@ export const BotMessageWrap = styled.div`
 `
 
 export const BotMessage = styled.div`
-    width: 60%;
+    width: 100%;
     height: 100%;
     background-color: #dedede;
     margin: .5rem;
@@ -89,7 +135,7 @@ export const UserMessageWrap = styled.div`
 
 export const UserMessage = styled.div`
     color:white;
-    width: 60%;
+    width: 100%;
     height: 100%;
     background-color: #073B59;
     margin: .5rem;
@@ -102,8 +148,23 @@ export const UserMessage = styled.div`
 `
 
 export const UserInputWrapper = styled.div`
+    background-color: #fafafa;
     height: 5rem;
     padding: 1rem;
+    border-radius: 0 0 .5rem .5rem;
+
+    ${media.xs`
+        height: 5.1rem; 
+    `}
+
+    ${media.lg`
+        height: 5.1rem;
+    `}
+
+    ${media.xl`
+        height: 6.1rem;
+    `}
+
 `
 
 export const StyledForm = styled.form`
@@ -113,18 +174,18 @@ export const StyledForm = styled.form`
     flex-direction: row;
     border: .1rem solid ${({theme}) => theme.colors.primary_100};
     border-radius: .5rem;
+    
 `
 
 export const StyledUserInput = styled.textarea`
     width: 100%;
-    height: auto; /* Alterado para 'auto' */
-    max-height: 4rem; /* Altura máxima equivalente a 4 linhas */
     border: none;
-    overflow-y: auto; /* Adicionado overflow-y */
-    padding: .3rem;
+    resize: none;
+    padding: .5rem;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
     font-size: ${({theme}) => theme.fontSizes.p3};
     border-radius: .5rem;
+    outline: none;
 `
 
 export const StyledInputButton = styled.button`
