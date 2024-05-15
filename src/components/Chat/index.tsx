@@ -108,7 +108,7 @@ export default function Chat() {
           </ChatBubble>
         ) : (
           <ChatBubble onClick={handleChatClose}>
-            <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
+            <Image src={'/images/CloseChat.svg'} alt={''} width={25} height={25}></Image>
           </ChatBubble>
         )}
       </Container>

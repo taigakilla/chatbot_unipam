@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { media } from "@unipam/theme";
+import { easeIn } from "framer-motion";
 
 export const Container = styled.div`
     height: 100vh;
@@ -7,7 +8,8 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-end; 
+    justify-content: flex-end;
+    border-radius: .5rem;
 
     ${media.sm`
         padding: 1rem;
@@ -27,6 +29,13 @@ export const ChatBubble = styled.button`
     margin: .5rem;
     position: relative;
     z-index: 1;
+    transition: all .2s ease;
+
+    &:hover,
+    &:active{
+        transform: scale(1.1);
+    }
+
 `
 
 type MainChatContainerProps = {
@@ -53,6 +62,8 @@ export const MainChatContainer = styled.div<MainChatContainerProps>`
     `}
 
 `
+
+
 
 export const ChatHeader = styled.div`
     width: 100%;
