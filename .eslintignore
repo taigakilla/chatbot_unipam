@@ -1,0 +1,14 @@
+**/*.js
+src/assets
+node_modules
+./build,
+./next
+yarn.lock
+package-lock.json
+./public
+./dist
+*.svg
+*.css
+src/@types/*.d.ts
+*.json
+next.config.js
