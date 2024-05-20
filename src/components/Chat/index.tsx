@@ -16,18 +16,35 @@ import {
   ChatBubble,
   MainChatContainer,
   Container,
+  ChatBubbleX,
 } from './styles'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const Messages = [
   {
     sender: 'Bot',
     content: 'Essa é uma mensagem do bot.',
   },
-
   {
     sender: 'User',
     content: 'Essa é uma mensagem do usuário. Hello!',
+  },
+  {
+    sender: 'User',
+    content:
+      'Essa é a terceira mensagem do Usuário. Muito maior do que a primeira. Talvez isso incorpore algumas classes em css.',
+  },
+  {
+    sender: 'User',
+    content: 'Oi',
+  },
+  {
+    sender: 'Bot',
+    content: 'Vamos brincar seu babacao do caralho',
+  },
+  {
+    sender: 'User',
+    content: 'Eai filho da puta, para de me xingar aí irmão',
   },
 ]
 
@@ -107,9 +124,9 @@ export default function Chat() {
             <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
           </ChatBubble>
         ) : (
-          <ChatBubble onClick={handleChatClose}>
-            <Image src={'/images/CloseChat.svg'} alt={''} width={25} height={25}></Image>
-          </ChatBubble>
+          <ChatBubbleX onClick={handleChatClose}>
+            <Image src={'/images/ChatAlt2.svg'} alt={''} width={0} height={0}></Image>
+          </ChatBubbleX>
         )}
       </Container>
     </>

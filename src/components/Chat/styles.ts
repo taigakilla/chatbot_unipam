@@ -10,6 +10,7 @@ export const Container = styled.div`
     align-items: flex-end;
     justify-content: flex-end;
     border-radius: .5rem;
+    overflow: hidden;
 
     ${media.sm`
         padding: 1rem;
@@ -38,9 +39,16 @@ export const ChatBubble = styled.button`
 
 `
 
+export const ChatBubbleX = styled.button`
+    height: 0;
+    width: 0;
+    display: hidden;
+`
+
 type MainChatContainerProps = {
     isOpen: boolean;
 }
+
 
 export const MainChatContainer = styled.div<MainChatContainerProps>`
     border-radius: .5rem;
@@ -49,21 +57,17 @@ export const MainChatContainer = styled.div<MainChatContainerProps>`
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
     position: absolute;
     opacity: ${({isOpen }) => (isOpen ? '1' : '0')};
-    transition: all 0.25s ease;
-    z-index: ${({isOpen}) => (isOpen ? '10' : '-10')};
+    z-index: ${({isOpen}) => (isOpen ? '10' : '-10')};  
     box-shadow: 0px 0px 8px rgba(0,0,0,.3);
 
     ${media.sm`
         height: 30rem;
-        width: 25rem;
+        width: 23rem;
         border-radius: .5rem;
-        position: relative;
         margin: .5rem;
     `}
 
 `
-
-
 
 export const ChatHeader = styled.div`
     width: 100%;
@@ -93,17 +97,22 @@ export const LogosWrapper = styled.div`
     padding-left: 1rem;
     flex-direction: row;
     gap: .5rem;
+    user-select: none;
 `
 
 export const ChatMessagesWrapper = styled.div`
     width: 100%;
     height: 75%;
     background-color: #fafafa;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
-    overflow-y: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1rem;
+    word-break: break-all;
+
+    &::-webkit-scrollbar{
+        width: 0%;
+    }
 
     ${media.sm`
         height: 20rem;
@@ -116,18 +125,19 @@ export const ChatMessagesWrapper = styled.div`
 `
 
 export const BotMessageWrap = styled.div`
-    margin: .5rem;
     display: flex;
     flex-direction: row;
+    margin: .25rem;
     align-items: center;
     justify-content: flex-start;
+    width: 100%;
 `
 
 export const BotMessage = styled.div`
-    width: 100%;
+    width: auto;
     height: 100%;
     background-color: #dedede;
-    margin: .5rem;
+    margin: .25rem;
     padding: .5rem;
     display: flex;
     flex-direction: row;
@@ -137,25 +147,27 @@ export const BotMessage = styled.div`
 `
 
 export const UserMessageWrap = styled.div`
-    margin: .5rem;
     display: flex;
     flex-direction: row;
+    margin: .25rem;
     align-items: center;
     justify-content: flex-end;
+    width: 100%;
 `
 
 export const UserMessage = styled.div`
     color:white;
-    width: 100%;
+    width: auto;
     height: 100%;
     background-color: #073B59;
-    margin: .5rem;
+    margin: .25rem;
     padding: .5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     border-radius: .5rem .5rem 0 .5rem;
+
 `
 
 export const UserInputWrapper = styled.div`
@@ -185,7 +197,7 @@ export const StyledForm = styled.form`
     flex-direction: row;
     border: .1rem solid ${({theme}) => theme.colors.primary_100};
     border-radius: .5rem;
-    
+
 `
 
 export const StyledUserInput = styled.textarea`
@@ -197,6 +209,9 @@ export const StyledUserInput = styled.textarea`
     font-size: ${({theme}) => theme.fontSizes.p3};
     border-radius: .5rem;
     outline: none;
+   &::-webkit-scrollbar{
+        width: 0%;
+    }
 `
 
 export const StyledInputButton = styled.button`
@@ -205,4 +220,5 @@ export const StyledInputButton = styled.button`
     border: none;
     background: transparent;
     border-radius: .5rem;
+    cursor: pointer;
 `
