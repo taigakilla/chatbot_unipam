@@ -18,38 +18,15 @@ import {
   Container,
   ChatBubbleX,
 } from './styles'
-import { useState, useRef } from 'react'
-
-const Messages = [
-  {
-    sender: 'Bot',
-    content: 'Essa é uma mensagem do bot.',
-  },
-  {
-    sender: 'User',
-    content: 'Essa é uma mensagem do usuário. Hello!',
-  },
-  {
-    sender: 'User',
-    content:
-      'Essa é a terceira mensagem do Usuário. Muito maior do que a primeira. Talvez isso incorpore algumas classes em css.',
-  },
-  {
-    sender: 'User',
-    content: 'Oi',
-  },
-  {
-    sender: 'Bot',
-    content: 'Vamos brincar seu babacao do caralho',
-  },
-  {
-    sender: 'User',
-    content: 'Eai filho da puta, para de me xingar aí irmão',
-  },
-]
+import { useState, useEffect } from 'react'
+import Messages from '../../services/json/Messages.json'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
+
+  const route = useRouter()
 
   const handleChatOpen = () => {
     setIsOpen(true)
@@ -93,13 +70,13 @@ export default function Chat() {
                 return (
                   <BotMessageWrap key={index}>
                     <Image src={'/images/icon.svg'} alt={''} width={30} height={30} />
-                    <BotMessage>{message.content}</BotMessage>
+                    <BotMessage>{message.text}</BotMessage>
                   </BotMessageWrap>
                 )
               } else if (message.sender == 'User') {
                 return (
                   <UserMessageWrap key={index}>
-                    <UserMessage>{message.content}</UserMessage>
+                    <UserMessage>{message.text}</UserMessage>
                   </UserMessageWrap>
                 )
               }
