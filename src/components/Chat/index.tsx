@@ -16,7 +16,7 @@ import {
   ChatBubble,
   MainChatContainer,
   Container,
-  ChatBubbleX,
+  StyledTextareaAutosize,
 } from './styles'
 import { useState, useEffect } from 'react'
 import Messages from '../../services/json/Messages.json'
@@ -91,13 +91,12 @@ export default function Chat() {
           </ChatMessagesWrapper>
           <UserInputWrapper>
             <StyledForm action='' id='userInputForm'>
-              <StyledUserInput
-                name='userMessage'
-                id='userMessage'
-                aria-placeholder='Digite aqui...'
+              <StyledTextareaAutosize
+                placeholder='Digite sua dúvida aqui...'
+                maxLength={300}
               />
               <StyledInputButton>
-                <Image src='/images/arrow.svg' alt='' width={30} height={30} />
+                <Image src='/images/arrow.svg' alt='' width={25} height={25} />
               </StyledInputButton>
             </StyledForm>
           </UserInputWrapper>

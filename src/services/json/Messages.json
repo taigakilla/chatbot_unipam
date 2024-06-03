@@ -6,5 +6,29 @@
   {
     "sender": "User",
     "text": "Essa é uma mensagem do usuário. Hello!"
+  },
+  {
+    "sender": "Bot",
+    "text": "Tenho uma dúvida muito grande e o balão tem que aumentar e eu ter uma noção de como fica quando o balão fica grande "
+  },
+  {
+    "sender": "User",
+    "text": "Tenho uma dúvida muito grande e o balão tem que aumentar e eu ter uma noção de como fica quando o balão fica grande "
+  },
+  {
+    "sender": "Bot",
+    "text": "Tenho uma dúvida muito grande e o balão tem que aumentar e eu ter uma noção de como fica quando o balão fica grande "
+  },
+  {
+    "sender": "User",
+    "text": "Tenho uma dúvida muito grande e o balão tem que aumentar e eu ter uma noção de como fica quando o balão fica grande "
+  },
+  {
+    "sender": "Bot",
+    "text": "oi"
+  },
+  {
+    "sender": "User",
+    "text": "meu"
   }
 ]
