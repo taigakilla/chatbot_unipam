@@ -1,26 +1,10 @@
 [
-{
+  {
     "sender": "Bot",
     "text": "Essa é uma mensagem do bot."
-},
-{
-  "sender": "User",
-  "text": "Essa é uma mensagem do usuário. Hello!"
-},
-{
-  "sender": "User",
-  "text": "Essa é a terceira mensagem do Usuário. Muito maior do que a primeira. Talvez isso incorpore algumas classes em css."
-},
-{
-  "sender": "User",
-  "text": "Oi"
-},
-{
-  "sender": "Bot",
-  "text": "Vamos brincar seu babacao do caralho"
-},
-{
-  "sender": "User",
-  "text": "Eai filho da puta, para de me xingar aí irmão"
-}
+  },
+  {
+    "sender": "User",
+    "text": "Essa é uma mensagem do usuário. Hello!"
+  }
 ]

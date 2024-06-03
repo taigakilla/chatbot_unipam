@@ -3,7 +3,6 @@ import { media } from "@unipam/theme";
 import { easeIn } from "framer-motion";
 
 export const Container = styled.div`
-    height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -11,10 +10,11 @@ export const Container = styled.div`
     justify-content: flex-end;
     border-radius: .5rem;
     overflow: hidden;
+    padding: 1rem;
+    z-index: 99;
 
     ${media.sm`
         padding: 1rem;
-        gap: .5rem;
     `}
 `
 
@@ -28,8 +28,7 @@ export const ChatBubble = styled.button`
     cursor: pointer;
     outline: none;
     margin: .5rem;
-    position: relative;
-    z-index: 1;
+    position: absolute;
     transition: all .2s ease;
 
     &:hover,
@@ -51,13 +50,12 @@ type MainChatContainerProps = {
 
 
 export const MainChatContainer = styled.div<MainChatContainerProps>`
+    display: flex;
     border-radius: .5rem;
-    height: 100%;
     width: 100%;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
-    position: absolute;
-    opacity: ${({isOpen }) => (isOpen ? '1' : '0')};
-    z-index: ${({isOpen}) => (isOpen ? '10' : '-10')};  
+    position: relative;
+    display: ${({isOpen}) => (isOpen ? 'block' : 'none')};
     box-shadow: 0px 0px 8px rgba(0,0,0,.3);
 
     ${media.sm`
@@ -102,7 +100,7 @@ export const LogosWrapper = styled.div`
 
 export const ChatMessagesWrapper = styled.div`
     width: 100%;
-    height: 75%;
+    height: 21rem;
     background-color: #fafafa;
     font-family: ${({theme})=>theme.fonts.nunitoRegular};
     overflow-y: scroll;

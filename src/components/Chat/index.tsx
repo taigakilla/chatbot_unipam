@@ -26,8 +26,6 @@ import { useRouter } from 'next/router'
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const route = useRouter()
-
   const handleChatOpen = () => {
     setIsOpen(true)
   }
@@ -47,12 +45,14 @@ export default function Chat() {
                 alt={''}
                 width={91}
                 height={28}
+                draggable={false}
               ></Image>
               <Image
                 src={'/images/logo-unipam.svg'}
                 alt={''}
                 width={108}
                 height={28}
+                draggable={false}
               ></Image>
             </LogosWrapper>
             <CloseButton onClick={handleChatClose}>
@@ -69,11 +69,17 @@ export default function Chat() {
               if (message.sender === 'Bot') {
                 return (
                   <BotMessageWrap key={index}>
-                    <Image src={'/images/icon.svg'} alt={''} width={30} height={30} />
+                    <Image
+                      src={'/images/icon.svg'}
+                      alt={''}
+                      width={30}
+                      height={30}
+                      draggable={false}
+                    />
                     <BotMessage>{message.text}</BotMessage>
                   </BotMessageWrap>
                 )
-              } else if (message.sender == 'User') {
+              } else if (message.sender === 'User') {
                 return (
                   <UserMessageWrap key={index}>
                     <UserMessage>{message.text}</UserMessage>
@@ -90,7 +96,7 @@ export default function Chat() {
                 id='userMessage'
                 aria-placeholder='Digite aqui...'
               />
-              <StyledInputButton type='submit'>
+              <StyledInputButton>
                 <Image src='/images/arrow.svg' alt='' width={30} height={30} />
               </StyledInputButton>
             </StyledForm>
@@ -101,9 +107,7 @@ export default function Chat() {
             <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
           </ChatBubble>
         ) : (
-          <ChatBubbleX onClick={handleChatClose}>
-            <Image src={'/images/ChatAlt2.svg'} alt={''} width={0} height={0}></Image>
-          </ChatBubbleX>
+          <></>
         )}
       </Container>
     </>
