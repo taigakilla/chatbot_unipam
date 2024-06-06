@@ -49,7 +49,7 @@ export const MainChatContainer = styled.div<MainChatContainerProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
 
-  ${media.xl`
+  ${media.md`
         height: 100%;
         width: 24rem;
         border-radius: .5rem;
