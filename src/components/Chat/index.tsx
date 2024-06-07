@@ -21,17 +21,27 @@ import {
 import { useState, useEffect } from 'react'
 import Messages from '../../services/json/Messages.json'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
 
   const handleChatOpen = () => {
     setIsOpen(true)
+    enviarDados('oi', 'fcd0f222-1254-443b-8b7c-c25436988a67')
+    enviarDados('continuar', 'fcd0f31231222-1087-44321313b-8b3123127c-3123')
   }
 
   const handleChatClose = () => {
     setIsOpen(false)
+  }
+  const enviarDados = async (mensagem: string, sessionId: string) => {
+    const response = await axios.post('/api/mensagensService', {
+      message: mensagem,
+      sessionId: sessionId,
+    })
+
+    const resposta = response.data
+    console.log(resposta)
   }
 
   return (
