@@ -21,27 +21,64 @@ import {
 import { useState, useEffect } from 'react'
 import Messages from '../../services/json/Messages.json'
 import axios from 'axios'
+import { v4 as uuid } from 'uuid'
+
+const useSessionID = () => {
+  const [firstSessionID, setFirstSessionID] = useState('')
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('firstSessionID')
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    const storedSessionID = localStorage.getItem('firstSessionID')
+
+    if (!storedSessionID) {
+      const newSessionID = uuid()
+      setFirstSessionID(newSessionID)
+      localStorage.setItem('firstSessionID', newSessionID)
+    } else {
+      setFirstSessionID(storedSessionID)
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
+
+  return firstSessionID
+}
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
+  const [userInput, setUserInput] = useState('')
+
+  const sessionID = useSessionID()
 
   const handleChatOpen = () => {
     setIsOpen(true)
-    enviarDados('oi', 'fcd0f222-1254-443b-8b7c-c25436988a67')
-    enviarDados('continuar', 'fcd0f31231222-1087-44321313b-8b3123127c-3123')
+    console.log(sessionID)
   }
 
   const handleChatClose = () => {
     setIsOpen(false)
   }
+
+  const isMessageEmpty = () => userInput === '' || userInput.trim() === ''
+
   const enviarDados = async (mensagem: string, sessionId: string) => {
+    if (isMessageEmpty()) {
+      return
+    }
     const response = await axios.post('/api/mensagensService', {
       message: mensagem,
-      sessionId: sessionId,
+      sessionId: sessionID,
     })
 
     const resposta = response.data
-    console.log(resposta)
+    return resposta
   }
 
   return (
@@ -104,8 +141,10 @@ export default function Chat() {
               <StyledTextareaAutosize
                 placeholder='Digite sua dúvida aqui...'
                 maxLength={300}
+                value={userInput}
+                onChange={e => setUserInput(e.target.value)}
               />
-              <StyledInputButton>
+              <StyledInputButton onClick={() => enviarDados(userInput, sessionID)}>
                 <Image src='/images/arrow.svg' alt='' width={25} height={25} />
               </StyledInputButton>
             </StyledForm>

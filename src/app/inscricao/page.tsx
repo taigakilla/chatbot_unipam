@@ -52,12 +52,12 @@ export default function Inscricao() {
 
         <FormWrap>
           <InputsWrap>
-            <CustomInput placeholder='Seu Nome' fullWidth></CustomInput>
+            {/* <CustomInput placeholder='Seu Nome' fullWidth></CustomInput>
             <CustomInput placeholder='Seu CPF' fullWidth></CustomInput>
             <CustomInput placeholder='Data de Nascimento' fullWidth></CustomInput>
             <CustomInput placeholder='Telefone' fullWidth></CustomInput>
             <CustomInput placeholder='Seu e-mail' fullWidth></CustomInput>
-            <CustomInput placeholder='Seu celular' fullWidth></CustomInput>
+            <CustomInput placeholder='Seu celular' fullWidth></CustomInput> */}
           </InputsWrap>
           <AceiteWrap>
             <WarningText>
