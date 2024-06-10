@@ -23,8 +23,26 @@ import Messages from '../../services/json/Messages.json'
 import axios from 'axios'
 import { v4 as uuid } from 'uuid'
 
-const useSessionID = () => {
+type Message = {
+  text: string
+  isUser: boolean
+}
+
+export default function Chat() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [userInput, setUserInput] = useState('')
+  const [currentMessages, setCurrentMessages] = useState<Message[]>([])
   const [firstSessionID, setFirstSessionID] = useState('')
+
+  const handleChatOpen = () => {
+    setIsOpen(true)
+    if (!firstSessionID) {
+      const newSessionID = uuid()
+      setFirstSessionID(newSessionID)
+      localStorage.setItem('firstSessionID', newSessionID)
+    }
+    return firstSessionID
+  }
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -34,12 +52,7 @@ const useSessionID = () => {
     window.addEventListener('beforeunload', handleBeforeUnload)
 
     const storedSessionID = localStorage.getItem('firstSessionID')
-
-    if (!storedSessionID) {
-      const newSessionID = uuid()
-      setFirstSessionID(newSessionID)
-      localStorage.setItem('firstSessionID', newSessionID)
-    } else {
+    if (storedSessionID) {
       setFirstSessionID(storedSessionID)
     }
 
@@ -48,37 +61,28 @@ const useSessionID = () => {
     }
   }, [])
 
-  return firstSessionID
-}
-
-export default function Chat() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [userInput, setUserInput] = useState('')
-
-  const sessionID = useSessionID()
-
-  const handleChatOpen = () => {
-    setIsOpen(true)
-    console.log(sessionID)
-  }
-
   const handleChatClose = () => {
     setIsOpen(false)
   }
 
   const isMessageEmpty = () => userInput === '' || userInput.trim() === ''
-
-  const enviarDados = async (mensagem: string, sessionId: string) => {
+  const enviarDados = async () => {
     if (isMessageEmpty()) {
       return
     }
+
     const response = await axios.post('/api/mensagensService', {
-      message: mensagem,
-      sessionId: sessionID,
+      message: userInput,
+      sessionId: firstSessionID,
     })
 
-    const resposta = response.data
-    return resposta
+    const botResponse = response.data.text
+    setCurrentMessages(prevMessages => [
+      ...prevMessages,
+      { text: userInput, isUser: true },
+      { text: botResponse, isUser: false },
+    ])
+    setUserInput('')
   }
 
   return (
@@ -112,8 +116,8 @@ export default function Chat() {
             </CloseButton>
           </ChatHeader>
           <ChatMessagesWrapper>
-            {Messages.map((message, index) => {
-              if (message.sender === 'Bot') {
+            {currentMessages.map((message, index) => {
+              if (message.isUser == false) {
                 return (
                   <BotMessageWrap key={index}>
                     <Image
@@ -126,7 +130,7 @@ export default function Chat() {
                     <BotMessage>{message.text}</BotMessage>
                   </BotMessageWrap>
                 )
-              } else if (message.sender === 'User') {
+              } else if (message.isUser == true) {
                 return (
                   <UserMessageWrap key={index}>
                     <UserMessage>{message.text}</UserMessage>
@@ -137,14 +141,14 @@ export default function Chat() {
             })}
           </ChatMessagesWrapper>
           <UserInputWrapper>
-            <StyledForm action='' id='userInputForm'>
+            <StyledForm id='userInputForm'>
               <StyledTextareaAutosize
                 placeholder='Digite sua dúvida aqui...'
                 maxLength={300}
                 value={userInput}
                 onChange={e => setUserInput(e.target.value)}
               />
-              <StyledInputButton onClick={() => enviarDados(userInput, sessionID)}>
+              <StyledInputButton type='button' onClick={() => enviarDados()}>
                 <Image src='/images/arrow.svg' alt='' width={25} height={25} />
               </StyledInputButton>
             </StyledForm>
