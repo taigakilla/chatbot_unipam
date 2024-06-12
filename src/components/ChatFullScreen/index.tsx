@@ -12,7 +12,6 @@ import {
   UserInputWrapper,
   StyledForm,
   StyledInputButton,
-  ChatBubble,
   MainChatContainer,
   Container,
   StyledTextareaAutosize,
@@ -20,27 +19,25 @@ import {
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { v4 as uuid } from 'uuid'
-
 type Message = {
   text: string
   isUser: boolean
 }
 
-export default function Chat() {
+export default function ChatFS() {
   const [isOpen, setIsOpen] = useState(false)
   const [userInput, setUserInput] = useState('')
   const [currentMessages, setCurrentMessages] = useState<Message[]>([])
-  const [firstSessionID, setFirstSessionID] = useState('')
+  const [firstSessionIDFS, setfirstSessionIDFS] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const handleChatOpen = () => {
-    setIsOpen(true)
-    if (!firstSessionID) {
+  const handleFirstSend = () => {
+    if (!firstSessionIDFS) {
       const newSessionID = uuid()
-      setFirstSessionID(newSessionID)
-      localStorage.setItem('firstSessionID', newSessionID)
+      setfirstSessionIDFS(newSessionID)
+      localStorage.setItem('firstSessionIDFS', newSessionID)
     }
-    return firstSessionID
+    return firstSessionIDFS
   }
 
   const handleChatClose = () => {
@@ -50,13 +47,14 @@ export default function Chat() {
   const isMessageEmpty = () => userInput === '' || userInput.trim() === ''
 
   const enviarDados = async () => {
+    handleFirstSend()
     if (isMessageEmpty()) {
       return
     }
 
     const response = await axios.post('/api/mensagensService', {
       message: userInput,
-      sessionId: firstSessionID,
+      sessionId: firstSessionIDFS,
     })
 
     const botResponse = response.data.text
@@ -75,6 +73,7 @@ export default function Chat() {
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    handleFirstSend()
     if (event.key === 'Enter') {
       event.preventDefault()
       enviarDados()
@@ -89,14 +88,14 @@ export default function Chat() {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.removeItem('firstSessionID')
+      localStorage.removeItem('firstSessionIDFS')
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload)
 
-    const storedSessionID = localStorage.getItem('firstSessionID')
+    const storedSessionID = localStorage.getItem('firstSessionIDFS')
     if (storedSessionID) {
-      setFirstSessionID(storedSessionID)
+      setfirstSessionIDFS(storedSessionID)
     }
 
     return () => {
@@ -107,7 +106,7 @@ export default function Chat() {
   return (
     <>
       <Container>
-        <MainChatContainer isOpen={isOpen}>
+        <MainChatContainer isOpen={true}>
           <ChatHeader>
             <LogosWrapper>
               <Image
@@ -185,13 +184,6 @@ export default function Chat() {
             </StyledForm>
           </UserInputWrapper>
         </MainChatContainer>
-        {!isOpen ? (
-          <ChatBubble onClick={handleChatOpen}>
-            <Image src={'/images/ChatAlt2.svg'} alt={''} width={35} height={35}></Image>
-          </ChatBubble>
-        ) : (
-          <></>
-        )}
       </Container>
     </>
   )

@@ -3,69 +3,32 @@ import { media } from '@unipam/theme'
 import TextareaAutosize from 'react-textarea-autosize'
 
 export const Container = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-  border-radius: 0.75rem;
   overflow: hidden;
-  padding: 1rem;
-  z-index: 99;
-
-  ${media.sm`
-        padding: 1rem;
-    `}
 `
 
-export const ChatBubble = styled.button`
-  background-color: ${({ theme }) => theme.colors.secondary_100};
-  border: none;
-  border-radius: 50% 0 50% 50%;
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  outline: none;
-  margin: 0.5rem;
-  position: absolute;
-  transition: all 0.2s ease;
-
-  &:hover,
-  &:active {
-    transform: scale(1.1);
-  }
-`
 
 type MainChatContainerProps = {
   isOpen: boolean
 }
 
 export const MainChatContainer = styled.div<MainChatContainerProps>`
-  border-radius: 0.75rem;
   width: 100%;
   font-family: ${({ theme }) => theme.fonts.nunitoRegular};
   position: relative;
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  
 
-  ${media.md`
-        height: 100%;
-        width: 24rem;
-        border-radius: .5rem;
-        margin: .5rem;
-    `}
 `
 
 export const ChatHeader = styled.div`
-  width: 100%;
   height: 5rem;
   background-color: #073b59;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-radius: 0.75rem 0.75rem 0 0;
 `
 
 export const CloseButton = styled.button`
@@ -90,23 +53,19 @@ export const LogosWrapper = styled.div`
 
 export const ChatMessagesWrapper = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 77vh;
   background-color: #fafafa;
   font-family: ${({ theme }) => theme.fonts.nunitoRegular};
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem 3rem 0 3rem;
 
   &::-webkit-scrollbar {
     width: 0%;
   }
 
   ${media.sm`
-        height: 20rem;
-    `}
-
-  ${media.xl`
-        height: 24rem;
+        height: 34rem;
     `}
 `
 

@@ -14,27 +14,8 @@ export const Container = styled.div`
   z-index: 99;
 
   ${media.sm`
-        padding: 1rem;
+        padding: 4rem;
     `}
-`
-
-export const ChatBubble = styled.button`
-  background-color: ${({ theme }) => theme.colors.secondary_100};
-  border: none;
-  border-radius: 50% 0 50% 50%;
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  outline: none;
-  margin: 0.5rem;
-  position: absolute;
-  transition: all 0.2s ease;
-
-  &:hover,
-  &:active {
-    transform: scale(1.1);
-  }
 `
 
 type MainChatContainerProps = {
@@ -46,15 +27,13 @@ export const MainChatContainer = styled.div<MainChatContainerProps>`
   width: 100%;
   font-family: ${({ theme }) => theme.fonts.nunitoRegular};
   position: relative;
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
 
-  ${media.md`
+    ${media.md`
         height: 100%;
-        width: 24rem;
         border-radius: .5rem;
-        margin: .5rem;
     `}
+
 `
 
 export const ChatHeader = styled.div`
