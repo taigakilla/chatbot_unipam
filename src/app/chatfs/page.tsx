@@ -5,7 +5,6 @@ import {
   ChatMessagesWrapper,
   BotMessage,
   UserMessage,
-  CloseButton,
   LogosWrapper,
   BotMessageWrap,
   UserMessageWrap,
@@ -126,8 +125,8 @@ export default function ChatFSPage() {
               <Image
                 src={'/images/icon.svg'}
                 alt={''}
-                width={30}
-                height={30}
+                width={40}
+                height={40}
                 draggable={false}
               />
               <BotMessage>Digite olá para começar!</BotMessage>
@@ -139,8 +138,8 @@ export default function ChatFSPage() {
                     <Image
                       src={'/images/icon.svg'}
                       alt={''}
-                      width={30}
-                      height={30}
+                      width={40}
+                      height={40}
                       draggable={false}
                     />
                     <BotMessage>{message.text}</BotMessage>

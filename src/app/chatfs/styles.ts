@@ -74,7 +74,7 @@ export const BotMessageWrap = styled.div`
   bottom: 0;
   flex-direction: row;
   margin: 0.25rem;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   width: 100%;
 `
