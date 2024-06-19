@@ -140,10 +140,10 @@ export const StyledTextLight = styled.p`
 
 export const StyledLink = styled.p`
   color: ${({ theme }) => theme.colors.background_100};
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
-    Arial, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.openSansRegular};
   font-weight: bolder;
-  font-size: xx-large;
+  font-size: ${({ theme }) => theme.fontSizes.p2};
+  text-shadow: 0 0 1rem #000;
 `
 
 export const LinkWrapper = styled(Link)`
@@ -153,34 +153,44 @@ export const LinkWrapper = styled(Link)`
   background-size: cover;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
   align-items: center;
   justify-content: center;
-  width: 40rem;
-  height: 20rem;
-  border-radius: 1rem;
+  width: 14rem;
+  height: 10rem;
+  border-radius: 0.25rem;
   box-shadow: 0 0 2rem #fff;
   transition: all 0.4s ease;
   text-decoration: none;
 
   &:hover {
-    width: 42rem;
-    height: 21rem;
+    width: 21rem;
+    height: 11rem;
   }
+
+  ${media.md`
+      font-size: ${({ theme }) => theme.fontSizes.h2};
+      width: 26rem;
+      height: 12rem;
+
+      &:hover {
+        width: 26.5rem;
+        height: 12.2rem;
+      }
+    `}
 `
 
 export const VoidSpace = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80vh;
+  justify-content: center;
+  height: 50vh;
   gap: 2rem;
 `
 export const StyleButtonEndPage = styled.p`
   color: ${({ theme }) => theme.colors.background_100};
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans',
     Arial, sans-serif;
-  font-weight: bolder;
 `
 
 export const LinkWrapperEndPage = styled(Link)`
@@ -219,9 +229,9 @@ export const LinkWrapperToTop = styled.button`
   box-shadow: 0 0 0.5rem #000;
   text-decoration: none;
   transition: all 0.25s ease;
+  cursor: pointer;
 
   &:hover {
-    font-size: medium;
     width: 4.4rem;
     height: 4.4rem;
   }

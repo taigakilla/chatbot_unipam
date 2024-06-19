@@ -1,20 +1,30 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import {
+  GlobalStyle,
   ImageText,
   LinkWrapper,
+  LinkWrapperEndPage,
+  LinkWrapperToTop,
   ProcessoContainer,
   ProcessoTextContainer,
+  ScrollToTopDiv,
   SlideWrapper,
+  StyleButtonEndPage,
   StyledContainer,
   StyledImage,
   StyledLink,
-  StyledNavbar,
   StyledText,
-  StyledTextLight,
   StyledTitle,
   StyledTitleLight,
+  VoidSpace,
 } from './style'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ArrowsPointingOutIcon,
+} from '@heroicons/react/20/solid'
 
 const NavItems = [
   {
@@ -52,11 +62,45 @@ const ProcessoContent = [
 ]
 
 export default function BackPage() {
+  const isBrowser = () => typeof window !== 'undefined' //The approach recommended by Next.js
+
+  const scrollToTop = () => {
+    if (!isBrowser()) return
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const [isVisible, setIsVisible] = useState(false)
+
+  const handleScroll = () => {
+    // Show the button when the user scrolls down
+    if (window.scrollY > 100000) {
+      setIsVisible(true)
+    } else {
+      setIsVisible(false)
+    }
+  }
+
+  useEffect(() => {
+    // Add scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll)
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
     <StyledContainer>
+      <GlobalStyle />
       <SlideWrapper>
         <ImageText>CHATBOT EDUCACIONAL</ImageText>
         <StyledImage src={'/images/background.jpg'} alt={'123'}></StyledImage>
+        <LinkWrapperEndPage href={'#pageEnd'}>
+          <StyleButtonEndPage>
+            <ArrowDownIcon color='#fff' width={40} height={40} />
+          </StyleButtonEndPage>
+        </LinkWrapperEndPage>
       </SlideWrapper>
       <ProcessoContainer>
         <StyledTitle>PROCESSO DE DESENVOLVIMENTO</StyledTitle>
@@ -70,7 +114,18 @@ export default function BackPage() {
           })}
         </ProcessoTextContainer>
       </ProcessoContainer>
-      <StyledTitle>EXEMPLO DO CHATBOT</StyledTitle>
+      <VoidSpace id='pageEnd'>
+        <StyledTitle>EXEMPLO DO CHATBOT</StyledTitle>
+        <LinkWrapper href='/chatfs'>
+          <StyledLink>FULL SCREEN</StyledLink>
+          {/* <ArrowsPointingOutIcon color='#fff' width={40} height={40} /> */}
+        </LinkWrapper>
+      </VoidSpace>
+      <ScrollToTopDiv>
+        <LinkWrapperToTop onClick={scrollToTop}>
+          <ArrowUpIcon color='#fff' width={25} height={25} />
+        </LinkWrapperToTop>
+      </ScrollToTopDiv>
     </StyledContainer>
   )
 }
