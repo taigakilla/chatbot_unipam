@@ -139,27 +139,43 @@ export const UserMessage = styled.div`
 export const UserInputWrapper = styled.div`
   background-color: #fafafa;
   display: flex;
+  flex-direction: column;
+  gap: .5rem;
   height: auto;
   padding: 1rem;
   border-radius: 0 0 0.75rem 0.75rem;
+`
 
-  ${media.xs`
-        height: auto; 
-    `}
+export const PresetMessagesWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`
 
-  ${media.lg`
-        height: auto;
-    `}
+export const PresetMessageButton = styled.button`
+  border: .1rem solid ${({theme}) => theme.colors.primary_100};
+  font-family: ${({theme}) => theme.fonts.nunitoBold};
+  color: ${({theme}) => theme.colors.primary_100};
+  padding: .5rem 1rem;
+  background-color: transparent;
+  border-radius: .8rem;
+  cursor: pointer;
+  transition: all .25s ease;
 
-    ${media.xl`
-        height: auto;
-    `}
+    &:hover{
+      background-color: ${({theme}) => theme.colors.primary_100};
+      color:${({theme}) => theme.colors.white};
+    }
+
 `
 
 export const StyledForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   border: 0.1rem solid ${({ theme }) => theme.colors.primary_100};
   border-radius: 0.75rem;
 `

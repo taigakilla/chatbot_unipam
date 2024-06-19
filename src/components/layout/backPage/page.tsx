@@ -56,9 +56,6 @@ export default function BackPage() {
     <StyledContainer>
       <SlideWrapper>
         <ImageText>CHATBOT EDUCACIONAL</ImageText>
-        <LinkWrapper href='/chatfs'>
-          <StyledLink>FULL SCREEN</StyledLink>
-        </LinkWrapper>
         <StyledImage src={'/images/background.jpg'} alt={'123'}></StyledImage>
       </SlideWrapper>
       <ProcessoContainer>

@@ -15,19 +15,53 @@ import {
   MainChatContainer,
   Container,
   StyledTextareaAutosize,
+  PresetMessageButton,
+  PresetMessagesWrapper,
 } from './styles'
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { v4 as uuid } from 'uuid'
+
 type Message = {
   text: string
   isUser: boolean
 }
 
+const presetMessages = [
+  {
+    presetID: 1,
+    messageContent: 'Olá',
+  },
+  {
+    presetID: 2,
+    messageContent: 'Continuar',
+  },
+  {
+    presetID: 3,
+    messageContent: 'Acadêmico',
+  },
+  {
+    presetID: 4,
+    messageContent: 'Financeiro',
+  },
+  {
+    presetID: 5,
+    messageContent: 'Aluno',
+  },
+  {
+    presetID: 6,
+    messageContent: 'Visitante',
+  },
+  {
+    presetID: 7,
+    messageContent: 'Finalizar Atendimento',
+  },
+]
+
 export default function ChatFS() {
-  const [isOpen, setIsOpen] = useState(false)
   const [userInput, setUserInput] = useState('')
   const [currentMessages, setCurrentMessages] = useState<Message[]>([])
+  const [presetMessage, setPresetMessage] = useState('')
   const [firstSessionIDFS, setfirstSessionIDFS] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -40,15 +74,12 @@ export default function ChatFS() {
     return firstSessionIDFS
   }
 
-  const handleChatClose = () => {
-    setIsOpen(false)
-  }
+  const isMessageEmpty = (message: string) => message === '' || message.trim() === ''
 
-  const isMessageEmpty = () => userInput === '' || userInput.trim() === ''
+  const enviarDados = async (userInput: string) => {
+    const messageToSend = presetMessage || userInput
 
-  const enviarDados = async () => {
-    handleFirstSend()
-    if (isMessageEmpty()) {
+    if (isMessageEmpty(messageToSend)) {
       return
     }
 
@@ -58,6 +89,7 @@ export default function ChatFS() {
     })
 
     const botResponse = response.data.text
+
     setCurrentMessages(prevMessages => [
       ...prevMessages,
       { text: userInput, isUser: true },
@@ -76,7 +108,15 @@ export default function ChatFS() {
     handleFirstSend()
     if (event.key === 'Enter') {
       event.preventDefault()
-      enviarDados()
+      enviarDados(userInput)
+    }
+  }
+
+  const handlePresetMessageChange = (presetID: number, preMessage: string) => {
+    const selectedMessage = presetMessages.find(content => content.presetID === presetID)
+    if (selectedMessage) {
+      setPresetMessage(preMessage)
+      enviarDados(preMessage)
     }
   }
 
@@ -103,6 +143,8 @@ export default function ChatFS() {
     }
   }, [])
 
+  handleFirstSend()
+
   return (
     <>
       <Container>
@@ -124,14 +166,6 @@ export default function ChatFS() {
                 draggable={false}
               ></Image>
             </LogosWrapper>
-            <CloseButton onClick={handleChatClose}>
-              <Image
-                src={'/images/closebtn.svg'}
-                alt={'x'}
-                width={15}
-                height={15}
-              ></Image>
-            </CloseButton>
           </ChatHeader>
           <ChatMessagesWrapper>
             <BotMessageWrap>
@@ -170,6 +204,21 @@ export default function ChatFS() {
             <div ref={messagesEndRef} />
           </ChatMessagesWrapper>
           <UserInputWrapper>
+            <PresetMessagesWrapper>
+              {presetMessages.map(content => {
+                return (
+                  <PresetMessageButton
+                    type='button'
+                    key={content.presetID}
+                    onClick={() =>
+                      handlePresetMessageChange(content.presetID, content.messageContent)
+                    }
+                  >
+                    {content.messageContent}
+                  </PresetMessageButton>
+                )
+              })}
+            </PresetMessagesWrapper>
             <StyledForm id='userInputForm'>
               <StyledTextareaAutosize
                 placeholder='Digite sua dúvida aqui...'
@@ -178,7 +227,7 @@ export default function ChatFS() {
                 onChange={e => setUserInput(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
-              <StyledInputButton type='button' onClick={() => enviarDados()}>
+              <StyledInputButton type='button' onClick={() => enviarDados(userInput)}>
                 <Image src='/images/arrow.svg' alt='' width={25} height={25} />
               </StyledInputButton>
             </StyledForm>

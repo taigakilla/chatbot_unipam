@@ -16,6 +16,8 @@ import {
   MainChatContainer,
   Container,
   StyledTextareaAutosize,
+  PresetMessageButton,
+  PresetMessagesWrapper,
 } from './styles'
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
@@ -26,11 +28,44 @@ type Message = {
   isUser: boolean
 }
 
+const presetMessages = [
+  {
+    presetID: 1,
+    messageContent: 'Olá',
+  },
+  {
+    presetID: 2,
+    messageContent: 'Continuar',
+  },
+  {
+    presetID: 3,
+    messageContent: 'Acadêmico',
+  },
+  {
+    presetID: 4,
+    messageContent: 'Financeiro',
+  },
+  {
+    presetID: 5,
+    messageContent: 'Aluno',
+  },
+  {
+    presetID: 6,
+    messageContent: 'Visitante',
+  },
+  {
+    presetID: 7,
+    messageContent: 'Finalizar Atendimento',
+  },
+]
+
 export default function Chat() {
   const [isOpen, setIsOpen] = useState(false)
   const [userInput, setUserInput] = useState('')
+  const [presetMessage, setPresetMessage] = useState('')
   const [currentMessages, setCurrentMessages] = useState<Message[]>([])
   const [firstSessionID, setFirstSessionID] = useState('')
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const handleChatOpen = () => {
@@ -47,10 +82,12 @@ export default function Chat() {
     setIsOpen(false)
   }
 
-  const isMessageEmpty = () => userInput === '' || userInput.trim() === ''
+  const isMessageEmpty = (message: string) => message === '' || message.trim() === ''
 
-  const enviarDados = async () => {
-    if (isMessageEmpty()) {
+  const enviarDados = async (userInput: string) => {
+    const messageToSend = presetMessage || userInput
+
+    if (isMessageEmpty(messageToSend)) {
       return
     }
 
@@ -60,6 +97,7 @@ export default function Chat() {
     })
 
     const botResponse = response.data.text
+
     setCurrentMessages(prevMessages => [
       ...prevMessages,
       { text: userInput, isUser: true },
@@ -77,7 +115,15 @@ export default function Chat() {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      enviarDados()
+      enviarDados(userInput)
+    }
+  }
+
+  const handlePresetMessageChange = (presetID: number, preMessage: string) => {
+    const selectedMessage = presetMessages.find(content => content.presetID === presetID)
+    if (selectedMessage) {
+      setPresetMessage(preMessage)
+      enviarDados(preMessage)
     }
   }
 
@@ -171,6 +217,21 @@ export default function Chat() {
             <div ref={messagesEndRef} />
           </ChatMessagesWrapper>
           <UserInputWrapper>
+            <PresetMessagesWrapper>
+              {presetMessages.map(content => {
+                return (
+                  <PresetMessageButton
+                    type='button'
+                    key={content.presetID}
+                    onClick={() =>
+                      handlePresetMessageChange(content.presetID, content.messageContent)
+                    }
+                  >
+                    {content.messageContent}
+                  </PresetMessageButton>
+                )
+              })}
+            </PresetMessagesWrapper>
             <StyledForm id='userInputForm'>
               <StyledTextareaAutosize
                 placeholder='Digite sua dúvida aqui...'
@@ -179,7 +240,7 @@ export default function Chat() {
                 onChange={e => setUserInput(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
-              <StyledInputButton type='button' onClick={() => enviarDados()}>
+              <StyledInputButton type='button' onClick={() => enviarDados(userInput)}>
                 <Image src='/images/arrow.svg' alt='' width={25} height={25} />
               </StyledInputButton>
             </StyledForm>
