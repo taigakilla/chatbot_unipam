@@ -6,11 +6,14 @@ export default async function MensagemService(req: NextApiRequest, res: NextApiR
   if (req.method === 'POST') {
     try {
       const { data } = await axios.post(urlBackend, req.body)
+      console.log('conectou')
       res.status(200).json(data)
     } catch (error) {
+      console.log('nao conectou')
       res.status(500).json({ error: 'Erro na solicitação API' })
     }
   } else {
     res.status(405).end()
+    console.log('erro aleatorio')
   }
 }
